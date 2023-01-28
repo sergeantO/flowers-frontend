@@ -8,7 +8,16 @@ import {
 } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.min.css";
 import Todo from './views/Todo';
-import ErrorBoundaty from './components/ErrorBoundaty';
+import ErrorBoundaty from './views/ErrorBoundaty';
+import LayoutComponent from './components/layout/LayoutComponent';
+import { ROUTES } from './constants';
+import Home from './views/Home';
+import Finance from './views/Finance';
+import Users from './views/Users';
+import Stock from './views/Stock';
+import Clients from './views/Clients';
+import Settings from './views/Settings';
+import Reports from './views/Reports';
 
 // TODO Переделал роутер в дерево, базовый элемент - лейаут, дочерние - контент
 //  Элемент <Outlet /> отображает дочерние элементы
@@ -16,54 +25,45 @@ const router = createBrowserRouter([
     {   
         //TODO Заменить элемент на лейаут компонент
         element: <div>
-                    <nav>
-                        <ul>
-                            <li><Link to="/finance" >Финансы</Link></li>
-                            <li><Link to="/users" >Пользователи</Link></li>
-                            <li><Link to="/stock" >Склад</Link></li>
-                            <li><Link to="/reports" >Отчеты</Link></li>
-                            <li><Link to="/clients" >Клиенты</Link></li>
-                            <li><Link to="/settings" >Настройки</Link></li>
-                        </ul>
-                    </nav>
+                    <LayoutComponent />
                     <Outlet />
                 </div>,
         errorElement: <ErrorBoundaty />,
         children: [
             {
-                path: "/",
+                path: ROUTES.Home,
                 //TODO Заменить на компонент
-                element: <div>Стартовая страница, в фигме не понятно, что тут будет</div>,
+                element: <Home />
             },
             {
-                path: "finance",
+                path: ROUTES.Finance,
                 //TODO Заменить на компонент
-                element: <div>Финансы</div>
+                element: <Finance />
             },
             {
-                path: "users",
+                path: ROUTES.Users,
                 //TODO Заменить на компонент
-                element: <div>Пользователи</div>
+                element: <Users />
             },
             {
-                path: "stock",
+                path: ROUTES.Stock,
                 //TODO Заменить на компонент
-                element: <div>Склад</div>
+                element: <Stock />
             },
             {
-                path: "reports",
+                path: ROUTES.Reports,
                 //TODO Заменить на компонент
-                element: <div>Отчеты</div>
+                element: <Reports />
             },
             {
-                path: "clients",
+                path: ROUTES.Clients,
                 //TODO Заменить на компонент
-                element: <div>Клиенты</div>
+                element: <Clients />
             },
             {
-                path: "settings",
+                path: ROUTES.Settings,
                 //TODO Заменить на компонент
-                element: <div>Настройки</div>
+                element: <Settings />
             },
             //TODO оставил для тестов
             {

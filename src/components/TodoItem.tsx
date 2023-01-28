@@ -14,7 +14,7 @@ interface IProps {
   todo: ITodo;
 }
 
-export const StyledTodoItem = styled.li `
+const StyledTodoItem = styled.li `
   background-color: white;
   display: flex;
   justify-content: space-between;
