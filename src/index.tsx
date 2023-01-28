@@ -3,19 +3,72 @@ import { createRoot } from 'react-dom/client';
 import {
     createBrowserRouter,
     Link,
+    Outlet,
     RouterProvider,
 } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.min.css";
 import Todo from './views/Todo';
 
+// TODO Переделал роутер в дерево, базовый элемент - лейаут, дочерние - контент
+//  Элемент <Outlet /> отображает дочерние элементы
 const router = createBrowserRouter([
-    {
-        path: "/todo",
-        element: <Todo />,
-    },
-    {
-        path: "/",
-        element: <div><h1>hello</h1><Link to={`todo`}>Your Name</Link></div>
+    {   
+        //TODO Заменить элемент на лейаут компонент
+        element: <div>
+                    <nav>
+                        <ul>
+                            <li><Link to="/finance" >Финансы</Link></li>
+                            <li><Link to="/users" >Пользователи</Link></li>
+                            <li><Link to="/stock" >Склад</Link></li>
+                            <li><Link to="/reports" >Отчеты</Link></li>
+                            <li><Link to="/clients" >Клиенты</Link></li>
+                            <li><Link to="/settings" >Настройки</Link></li>
+                        </ul>
+                    </nav>
+                    <Outlet />
+                </div>,
+        children: [
+            {
+                path: "/",
+                //TODO Заменить на компонент
+                element: <div>Стартовая страница, в фигме не понятно, что тут будет</div>
+            },
+            {
+                path: "finance",
+                //TODO Заменить на компонент
+                element: <div>Финансы</div>
+            },
+            {
+                path: "users",
+                //TODO Заменить на компонент
+                element: <div>Пользователи</div>
+            },
+            {
+                path: "stock",
+                //TODO Заменить на компонент
+                element: <div>Склад</div>
+            },
+            {
+                path: "reports",
+                //TODO Заменить на компонент
+                element: <div>Отчеты</div>
+            },
+            {
+                path: "clients",
+                //TODO Заменить на компонент
+                element: <div>Клиенты</div>
+            },
+            {
+                path: "settings",
+                //TODO Заменить на компонент
+                element: <div>Настройки</div>
+            },
+            //TODO оставил для тестов
+            {
+                path: "todo",
+                element: <Todo />,
+            },
+        ],
     }
   ]);
 
