@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.min.css";
 import Todo from './views/Todo';
+import ErrorBoundaty from './components/ErrorBoundaty';
 
 // TODO Переделал роутер в дерево, базовый элемент - лейаут, дочерние - контент
 //  Элемент <Outlet /> отображает дочерние элементы
@@ -27,11 +28,12 @@ const router = createBrowserRouter([
                     </nav>
                     <Outlet />
                 </div>,
+        errorElement: <ErrorBoundaty />,
         children: [
             {
                 path: "/",
                 //TODO Заменить на компонент
-                element: <div>Стартовая страница, в фигме не понятно, что тут будет</div>
+                element: <div>Стартовая страница, в фигме не понятно, что тут будет</div>,
             },
             {
                 path: "finance",
