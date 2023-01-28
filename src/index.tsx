@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from "react-dom";
+import { createRoot } from 'react-dom/client';
 import {
     createBrowserRouter,
     Link,
@@ -10,8 +10,8 @@ import Todo from './views/Todo';
 
 const router = createBrowserRouter([
     {
-      path: "/todo",
-      element: <Todo />,
+        path: "/todo",
+        element: <Todo />,
     },
     {
         path: "/",
@@ -27,8 +27,11 @@ const Layout = function() {
     )
 }
 
-const rootElement = document.getElementById("root");
-render(<Layout />, rootElement);
+const rootElement = createRoot( document.getElementById("root") as HTMLElement )
+
+rootElement.render(
+    <Layout />
+);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
