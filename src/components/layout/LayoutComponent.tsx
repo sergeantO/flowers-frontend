@@ -1,23 +1,36 @@
-import React, { FC } from "react"
-import { Link } from "react-router-dom"
-import styled from "styled-components";
-import { ROUTES } from "../../constants";
 
-const StyledTodoItem = styled.nav `
-`;
+import { Box } from "@mui/material"
+import React, { FC } from "react"
+import { Outlet } from "react-router-dom"
+import Header from "./Header"
+import Sidebar from "./Sidebar"
 
 const LayoutComponent: FC = () => {
     return (
-        <nav>
-            <ul>
-                <li><Link to={ROUTES.Finance} >Финансы</Link></li>
-                <li><Link to={ROUTES.Users} >Пользователи</Link></li>
-                <li><Link to={ROUTES.Stock} >Склад</Link></li>
-                <li><Link to={ROUTES.Reports} >Отчеты</Link></li>
-                <li><Link to={ROUTES.Clients} >Клиенты</Link></li>
-                <li><Link to={ROUTES.Settings} >Настройки</Link></li>
-            </ul>
-        </nav>
+        <Box sx={{ display: "flex" }}>
+            <Header />
+            <Box 
+                sx={{
+                    width: "300px",
+                    flexShrink: 0,
+                    backgroundColor: "black ",
+                }}
+            >
+                <Sidebar />
+            </Box>
+            <Box 
+                component="main"
+                sx={{
+                    flexGrow: 1,
+                    p: 3,
+                    width: "calc(100% - 300px)",
+                    minHeight: "100vh",
+                    backgroundColor: "darkgray"
+                }}
+            >
+                <Outlet />
+            </Box>
+        </Box>
     )
 }
 

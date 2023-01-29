@@ -1,6 +1,7 @@
+import React, { FC } from "react";
 import { Link } from "react-router-dom";
 
-export default function ErrorBoundaty() {
+const ErrorBoundary:FC = () => {
     return (
         <>
             <h2>Страница не найдена</h2>
@@ -8,3 +9,5 @@ export default function ErrorBoundaty() {
         </>
     )
 }
+
+export default ErrorBoundary

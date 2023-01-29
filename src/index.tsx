@@ -2,13 +2,11 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import {
     createBrowserRouter,
-    Link,
-    Outlet,
     RouterProvider,
 } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.min.css";
 import Todo from './views/Todo';
-import ErrorBoundaty from './views/ErrorBoundaty';
+import ErrorBoundary from './views/ErrorBoundary';
 import LayoutComponent from './components/layout/LayoutComponent';
 import { ROUTES } from './constants';
 import Home from './views/Home';
@@ -18,6 +16,10 @@ import Stock from './views/Stock';
 import Clients from './views/Clients';
 import Settings from './views/Settings';
 import Reports from './views/Reports';
+import { CssBaseline } from '@mui/material';
+import Managers from './views/Managers';
+import Florists from './views/Florists';
+import Logistics from './views/Logistics';
 
 // TODO Переделал роутер в дерево, базовый элемент - лейаут, дочерние - контент
 //  Элемент <Outlet /> отображает дочерние элементы
@@ -26,9 +28,8 @@ const router = createBrowserRouter([
         //TODO Заменить элемент на лейаут компонент
         element: <div>
                     <LayoutComponent />
-                    <Outlet />
                 </div>,
-        errorElement: <ErrorBoundaty />,
+        errorElement: <ErrorBoundary />,
         children: [
             {
                 path: ROUTES.Home,
@@ -65,6 +66,21 @@ const router = createBrowserRouter([
                 //TODO Заменить на компонент
                 element: <Settings />
             },
+            {
+                path: ROUTES.Managers,
+                //TODO Заменить на компонент
+                element: <Managers />
+            },
+            {
+                path: ROUTES.Florists,
+                //TODO Заменить на компонент
+                element: <Florists />
+            },
+            {
+                path: ROUTES.Logistics,
+                //TODO Заменить на компонент
+                element: <Logistics />
+            },
             //TODO оставил для тестов
             {
                 path: "todo",
@@ -77,6 +93,7 @@ const router = createBrowserRouter([
 const Layout = function() {
     return(
         <React.StrictMode>
+            <CssBaseline />
             <RouterProvider router={router} />
         </React.StrictMode>
     )
