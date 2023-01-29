@@ -1,18 +1,39 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom"
-import { ROUTES } from "../../constants";
-import WalletIcon from '@mui/icons-material/Wallet';
-import PersonIcon from '@mui/icons-material/Person';
-import InventoryIcon from '@mui/icons-material/Inventory';
-import TextSnippetIcon from '@mui/icons-material/TextSnippet';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import SettingsIcon from '@mui/icons-material/Settings';
-import { ExpandLess, ExpandMore, StarBorder } from "@mui/icons-material";
-import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import { ROUTES } from "../../routing";
+
+import {
+    ExpandLess, ExpandMore,
+    Settings as SettingsIcon,
+    PeopleAlt as PeopleAltIcon,
+    TextSnippet as TextSnippetIcon,
+    Inventory as InventoryIcon,
+    Person as PersonIcon,
+    Wallet as WalletIcon,
+    ShoppingBasket as ShoppingBasketIcon
+} from "@mui/icons-material";
+
 import { Collapse, Drawer, List, ListItemButton, ListItemIcon, ListItemText, Toolbar } from "@mui/material";
+import SidebarItem from "./SidebarItem";
+import { m } from "../../services/i18n";
+import styled from "styled-components";
+
+const SidebarWidth = 330
+const CollapseSidebarWidth = 66
+
+const CollapseSidebarBtn = styled.div` 
+    width: ${CollapseSidebarWidth}px;
+    height: ${CollapseSidebarWidth}px;
+    border-radius: 50%;
+    position: absolute;
+    left: ${SidebarWidth-CollapseSidebarWidth/2}px;
+    top: 42%;
+    background: #F7F7F7;
+    z-index: -9;
+`
 
 //TODO: реализовать компонент SidebarItem
-const Sidebar:FC = () => {
+const Sidebar: FC = () => {
 
     const [open, setOpen] = React.useState(false);
 
@@ -24,59 +45,30 @@ const Sidebar:FC = () => {
         <Drawer
             variant="permanent"
             sx={{
-                width: "300px",
+                width: `${SidebarWidth}px`,
                 flexShrink: 0,
                 "& .MuiDrawer-paper": {
-                    width: "300px",
+                    paddingLeft: '50px',
+                    width: `${SidebarWidth}px`,
                     boxSizing: "border-box",
                     borderRight: "0px",
-                    backgroundColor: "gray"
+                    backgroundColor: "#E8E8E8"
                 }
             }}
         >
+            <CollapseSidebarBtn />
             <List>
-                <Toolbar>
+                <Toolbar sx={{ height: "150px" }}>
                     TODO: место под логотип
                 </Toolbar>
-                <ListItemButton
-                    component={Link}
-                    to={ROUTES.Finance}
-                >
-                    <ListItemIcon>
-                        <WalletIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Финансы" />
-                </ListItemButton>
-                <ListItemButton
-                    component={Link}
-                    to={ROUTES.Users}
-                >
-                    <ListItemIcon>
-                        <PersonIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Пользователи" />
-                </ListItemButton>
-                <ListItemButton
-                    component={Link}
-                    to={ROUTES.Stock}
-                >
-                    <ListItemIcon>
-                        <InventoryIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Склад" />
-                </ListItemButton>
-                <ListItemButton
-                    component={Link}
-                    to={ROUTES.Reports}
-                >
-                    <ListItemIcon>
-                        <TextSnippetIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Отчеты" />
-                </ListItemButton>
+                <SidebarItem to="Finance" icon={WalletIcon} text={m("Финансы")} />
+                <SidebarItem to="Users" icon={PersonIcon} text={m("Пользователи")} />
+                <SidebarItem to="Stock" icon={InventoryIcon} text={m("Склад")} />
+                <SidebarItem to="Reports" icon={TextSnippetIcon} text={m("Отчеты")} />
+                
                 <ListItemButton onClick={handleClick}>
                     <ListItemIcon>
-                    <ShoppingBasketIcon />
+                        <ShoppingBasketIcon />
                     </ListItemIcon>
                     <ListItemText primary="Заказы" />
                     {open ? <ExpandLess /> : <ExpandMore />}
@@ -106,24 +98,9 @@ const Sidebar:FC = () => {
                         </ListItemButton>
                     </List>
                 </Collapse>
-                <ListItemButton
-                    component={Link}
-                    to={ROUTES.Clients}
-                >
-                    <ListItemIcon>
-                        <PeopleAltIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Клиенты" />
-                </ListItemButton>
-                <ListItemButton
-                    component={Link}
-                    to={ROUTES.Settings}
-                >
-                    <ListItemIcon>
-                        <SettingsIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Настройки" />
-                </ListItemButton>
+
+                <SidebarItem to="Clients" icon={PeopleAltIcon} text={m("Клиенты")} />
+                <SidebarItem to="Settings" icon={SettingsIcon} text={m("Настройки")} />
             </List>
         </Drawer>
     )

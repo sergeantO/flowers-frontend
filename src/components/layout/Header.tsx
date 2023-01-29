@@ -8,10 +8,11 @@ const Header:FC = () => {
         <AppBar
             position="fixed"
             sx={{
-                width: "calc(100% - 300px)",
-                ml: "300px",
+                width: "calc(100% - 330px)",
+                ml: "330px",
+                height: "150px",
                 boxShadow: "unset",
-                backgroundColor: "white",
+                backgroundColor: "#F5F5F5",
                 color: "black" 
             }}
         >
