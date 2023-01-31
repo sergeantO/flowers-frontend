@@ -6,7 +6,7 @@ import { ROUTES } from '../../routing'
 
 type SidebarItemProps = {
   to: keyof typeof ROUTES,
-  text: string,
+  text?: string,
   icon?: SvgIconComponent
 }
 
@@ -16,6 +16,7 @@ const SidebarItem: FC<SidebarItemProps> = (props: SidebarItemProps) => {
     <ListItemButton
         component={Link}
         to={props.to}
+        sx={{ minHeight: '48px'}}
     >
         <ListItemIcon>
             {Icon ? <Icon /> : null}
