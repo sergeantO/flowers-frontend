@@ -46,6 +46,10 @@ const CollapseSidebarBtn = styled.button`
     background-color: #F5F5F5;
     border: 0;
     cursor: pointer;
+    color: darkgray;
+    &:hover {
+        color: #9c27b0;
+    }
 `
 
 const Main = style('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
@@ -180,10 +184,10 @@ export default function MiniDrawer() {
 
                         <ListItemButton onClick={handleClick}>
                             <ListItemIcon>
-                                <ShoppingBasketIcon sx={{ fontSize: '2rem'}} />
+                                <ShoppingBasketIcon sx={{ fontSize: '2rem', color: 'darkgray'}} />
                             </ListItemIcon>
                             { open ? <ListItemText primary="Заказы" /> : ''}
-                            {open ? (openCollapsed ? <ExpandLess /> : <ExpandMore />) : ''}
+                            {open ? (openCollapsed ? <ExpandLess sx={{ color: 'darkgray' }}/> : <ExpandMore sx={{ color: 'darkgray' }}/>) : ''}
                         </ListItemButton>
                         { open ?
                         <Collapse in={openCollapsed} timeout="auto" unmountOnExit>

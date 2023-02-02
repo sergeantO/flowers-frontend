@@ -27,7 +27,7 @@ const SidebarItem: FC<SidebarItemProps> = (props: SidebarItemProps) => {
         to={props.to}
     >
         <ListItemIcon>
-            {Icon ? <Icon sx={{ fontSize: '2rem'}}/> : null}
+            {Icon ? <Icon sx={{ fontSize: '2rem', color: 'darkgray'}}/> : null}
         </ListItemIcon>
         <ListItemText primary={props.text} sx={{ color: "#353535", fontSize: '1.25rem' }} />
     </ListItemButton>
