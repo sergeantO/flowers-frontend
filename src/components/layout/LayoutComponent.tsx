@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
+import { styled as style, useTheme, Theme, CSSObject } from '@mui/material/styles';
+import styled from 'styled-components'
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
@@ -7,7 +8,6 @@ import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -30,10 +30,26 @@ import {
 import SidebarItem from "./SidebarItem";
 import { m } from "../../services/i18n";
 import { Collapse } from '@mui/material';
+import Breadcrumb from './Breadcrumbs';
 
 const drawerWidth = 330;
+const collapsedDrawerWidth = 124;
+const CollapseSidebarBtnWidth = 66
 
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
+const CollapseSidebarBtn = styled.button` 
+    width: ${CollapseSidebarBtnWidth}px;
+    height: ${CollapseSidebarBtnWidth}px;
+    border-radius: 50%;
+    z-index: 999999;
+    position: absolute;
+    top: 42%;
+    margin-left: -58px;
+    background-color: #F5F5F5;
+    border: 0;
+    cursor: pointer;
+`
+
+const Main = style('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
     open?: boolean;
 }>(({ theme, open }) => ({
     flexGrow: 1,
@@ -69,9 +85,9 @@ const closedMixin = (theme: Theme): CSSObject => ({
     }),
     background: '#E8E8E8',
     overflowX: 'hidden',
-    width: `calc(${theme.spacing(10.5)} + 1px)`,
+    width: `calc(${theme.spacing(15.5)} + 1px)`,
     [theme.breakpoints.up('sm')]: {
-        width: `calc(${theme.spacing(10.5)} + 1px)`,
+        width: `calc(${theme.spacing(15.5)} + 1px)`,
     },
 });
 
@@ -79,7 +95,7 @@ interface AppBarProps extends MuiAppBarProps {
     open?: boolean;
 }
 
-const DrawerHeader = styled('div')(({ theme }) => ({
+const DrawerHeader = style('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
@@ -88,10 +104,10 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     ...theme.mixins.toolbar,
 }));
 
-const AppBar = styled(MuiAppBar, {
+const AppBar = style(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
 })<AppBarProps>(({ theme, open }) => ({
-    width: `calc(100% - 65px)`,
+    width: `calc(100% - 124px)`,
     boxShadow: "unset",
     backgroundColor: "#F5F5F5",
     color: "black",
@@ -105,7 +121,7 @@ const AppBar = styled(MuiAppBar, {
     }),
 }));
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+const Drawer = style(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
         width: drawerWidth,
         flexShrink: 0,
@@ -148,28 +164,30 @@ export default function MiniDrawer() {
                 <CssBaseline />
                 <AppBar position="fixed" open={open}>
                     <Toolbar>
+                        <Breadcrumb />
                         <Typography variant="h6" noWrap component="div">
                             This is header
                         </Typography>
                     </Toolbar>
                 </AppBar>
                 <Drawer variant="permanent" open={open}>
-                    <List sx={{ marginLeft: '15px'}}>
+                    <List sx={{ marginLeft: '25px'}}>
                         <Toolbar sx={{ height: "150px" }}>
                             TODO: место под логотип
                         </Toolbar>
-                        <SidebarItem to="Finance" icon={WalletIcon} text={open ? m("Финансы") : ' '} />
-                        <SidebarItem to="Users" icon={PersonIcon} text={open ? m("Пользователи") : ' '} />
-                        <SidebarItem to="Stock" icon={InventoryIcon} text={open ? m("Склад") : ' '} />
-                        <SidebarItem to="Reports" icon={TextSnippetIcon} text={open ? m("Отчеты") : ' '} />
+                        <SidebarItem to="Finance" icon={WalletIcon} text={open ? m("Финансы") : ''} />
+                        <SidebarItem to="Users" icon={PersonIcon} text={open ? m("Пользователи") : ''} />
+                        <SidebarItem to="Stock" icon={InventoryIcon} text={open ? m("Склад") : ''} />
+                        <SidebarItem to="Reports" icon={TextSnippetIcon} text={open ? m("Отчеты") : ''} />
 
-                        <ListItemButton onClick={handleClick} sx={{ minHeight: '48px' }}>
+                        <ListItemButton onClick={handleClick}>
                             <ListItemIcon>
-                                <ShoppingBasketIcon />
+                                <ShoppingBasketIcon sx={{ fontSize: '2rem'}} />
                             </ListItemIcon>
-                            { open ? <ListItemText primary="Заказы" />: ' '}
-                            {openCollapsed ? <ExpandLess /> : <ExpandMore />}
+                            { open ? <ListItemText primary="Заказы" /> : ''}
+                            {open ? (openCollapsed ? <ExpandLess /> : <ExpandMore />) : ''}
                         </ListItemButton>
+                        { open ?
                         <Collapse in={openCollapsed} timeout="auto" unmountOnExit>
                             <List component="div" disablePadding>
                                 <ListItemButton
@@ -177,26 +195,27 @@ export default function MiniDrawer() {
                                     to={ROUTES.Managers}
                                     sx={{ pl: 4, minHeight: '48px' }}
                                 >
-                                    { open ? <ListItemText primary="Менеджеры" /> : ' '}
+                                    { open ? <ListItemText primary="Менеджеры" /> : ''}
                                 </ListItemButton>
                                 <ListItemButton
                                     component={Link}
                                     to={ROUTES.Florists}
                                     sx={{ pl: 4, minHeight: '48px' }}
                                 >
-                                    { open ? <ListItemText primary="Флористы" /> : ' '}
+                                    { open ? <ListItemText primary="Флористы" /> : ''}
                                 </ListItemButton>
                                 <ListItemButton
                                     component={Link}
                                     to={ROUTES.Logistics}
                                     sx={{ pl: 4, minHeight: '48px' }}
                                 >
-                                    { open ? <ListItemText primary="Логисты" /> : ' '}
+                                    { open ? <ListItemText primary="Логисты" /> : ''}
                                 </ListItemButton>
                             </List>
                         </Collapse>
-                        <SidebarItem to="Clients" icon={PeopleAltIcon} text={open ? m("Клиенты") : ' '} />
-                        <SidebarItem to="Settings" icon={SettingsIcon} text={open ? m("Настройки") : ' '} />
+                        : '' }
+                        <SidebarItem to="Clients" icon={PeopleAltIcon} text={open ? m("Клиенты") : ''} />
+                        <SidebarItem to="Settings" icon={SettingsIcon} text={open ? m("Настройки") : ''} />
                     </List>
                 </Drawer>
                 <Main 
@@ -205,18 +224,11 @@ export default function MiniDrawer() {
                         backgroundColor: "#F5F5F5",
                     }}
                 >
-                    <IconButton 
-                        onClick={handleDrawerSwitch} 
-                        sx={{ 
-                            zIndex: 999999,
-                            position: 'absolute',
-                            top: '42%',
-                            marginLeft: '-45px',
-                            backgroundColor: "#F5F5F5",
-                        }}
+                    <CollapseSidebarBtn
+                        onClick={handleDrawerSwitch}
                     >
                         {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                    </IconButton>
+                    </CollapseSidebarBtn>
                     <DrawerHeader />
                     <Outlet />
                 </Main>

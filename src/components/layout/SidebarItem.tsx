@@ -2,6 +2,7 @@ import { Inventory as InventoryIcon, SvgIconComponent } from '@mui/icons-materia
 import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
 import React, { FC } from 'react'
 import { Link } from 'react-router-dom'
+import styled from 'styled-components'
 import { ROUTES } from '../../routing'
 
 type SidebarItemProps = {
@@ -10,16 +11,23 @@ type SidebarItemProps = {
   icon?: SvgIconComponent
 }
 
+const SidebarItemStyled = styled(Link)`
+    background-color: #E8E8E8;
+    &:hover {
+        background-color: #E8E8E8;
+        color: #9c27b0;
+    }
+`
+
 const SidebarItem: FC<SidebarItemProps> = (props: SidebarItemProps) => {
   const Icon = props.icon
   return (
     <ListItemButton
         component={Link}
         to={props.to}
-        sx={{ minHeight: '48px'}}
     >
         <ListItemIcon>
-            {Icon ? <Icon /> : null}
+            {Icon ? <Icon sx={{ fontSize: '2rem'}}/> : null}
         </ListItemIcon>
         <ListItemText primary={props.text} sx={{ color: "#353535", fontSize: '1.25rem' }} />
     </ListItemButton>
