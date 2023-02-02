@@ -30,7 +30,6 @@ import {
 import SidebarItem from "./SidebarItem";
 import { m } from "../../services/i18n";
 import { Collapse } from '@mui/material';
-import Breadcrumb from './Breadcrumbs';
 
 const drawerWidth = 330;
 const collapsedDrawerWidth = 124;
@@ -164,7 +163,6 @@ export default function MiniDrawer() {
                 <CssBaseline />
                 <AppBar position="fixed" open={open}>
                     <Toolbar>
-                        <Breadcrumb />
                         <Typography variant="h6" noWrap component="div">
                             This is header
                         </Typography>
