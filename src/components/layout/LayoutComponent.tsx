@@ -53,7 +53,7 @@ const CollapseSidebarBtn = styled.button<AppBarProps>`
     cursor: pointer;
     color: darkgray;
     &:hover {
-        color: #9c27b0;
+        color: #6E33FF;
     }
 `
 
@@ -85,9 +85,24 @@ const AppBar = styled(MuiAppBar)<AppBarProps>`
         height: ${headerHieght}px;
         justify-content: center;
         background-color: #F5F5F5;
-        color: black;
+        color: #353535;
         transition: width 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
     }
+`
+
+const ListItemButtonStyled = styled(ListItemButton)`
+    && {background-color: #E8E8E8;
+    &:hover {
+        background-color: #E8E8E8;
+    }}
+    &:hover .iconStyled {
+        transition: color 200ms linear;
+        color: #6E33FF;
+    }}
+    &:hover .textStyled {
+        transition: color 200ms linear;
+        color: #6E33FF;
+    }}
 `
 
 const Drawer = styled(MuiDrawer)`
@@ -145,37 +160,19 @@ export default function MiniDrawer() {
                         <SidebarItem to="Stock" icon={InventoryIcon} text={open ? m("Склад") : ''} />
                         <SidebarItem to="Reports" icon={TextSnippetIcon} text={open ? m("Отчеты") : ''} />
 
-                        <ListItemButton onClick={handleClick}>
+                        <ListItemButtonStyled onClick={handleClick}>
                             <ListItemIcon>
-                                <ShoppingBasketIcon sx={{ fontSize: '2rem', color: 'darkgray'}} />
+                                <ShoppingBasketIcon className="iconStyled" sx={{ fontSize: '2rem', color: 'darkgray'}} />
                             </ListItemIcon>
-                            { open ? <ListItemText primary="Заказы" /> : ''}
-                            {open ? (openCollapsed ? <ExpandLess sx={{ color: 'darkgray' }}/> : <ExpandMore sx={{ color: 'darkgray' }}/>) : ''}
-                        </ListItemButton>
+                            { open ? <ListItemText className="textStyled" primary="Заказы" /> : ''}
+                            {open ? (openCollapsed ? <ExpandLess className="iconStyled" sx={{ color: 'darkgray' }}/> : <ExpandMore className="iconStyled" sx={{ color: 'darkgray' }}/>) : ''}
+                        </ListItemButtonStyled>
                         { open ?
                         <Collapse in={openCollapsed} timeout="auto" unmountOnExit>
                             <List component="div" disablePadding>
-                                <ListItemButton
-                                    component={Link}
-                                    to={ROUTES.Managers}
-                                    sx={{ pl: 4, minHeight: '48px' }}
-                                >
-                                    { open ? <ListItemText primary="Менеджеры" /> : ''}
-                                </ListItemButton>
-                                <ListItemButton
-                                    component={Link}
-                                    to={ROUTES.Florists}
-                                    sx={{ pl: 4, minHeight: '48px' }}
-                                >
-                                    { open ? <ListItemText primary="Флористы" /> : ''}
-                                </ListItemButton>
-                                <ListItemButton
-                                    component={Link}
-                                    to={ROUTES.Logistics}
-                                    sx={{ pl: 4, minHeight: '48px' }}
-                                >
-                                    { open ? <ListItemText primary="Логисты" /> : ''}
-                                </ListItemButton>
+                                <SidebarItem to="Managers" text={open ? m("Менеджеры") : ''} />
+                                <SidebarItem to="Florists" text={open ? m("Флористы") : ''} />
+                                <SidebarItem to="Logistics" text={open ? m("Логисты") : ''} />
                             </List>
                         </Collapse>
                         : '' }
