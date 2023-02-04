@@ -39,15 +39,16 @@ interface AppBarProps extends MuiAppBarProps {
     open?: boolean;
 }
 
-const CollapseSidebarBtn = styled.button` 
+const CollapseSidebarBtn = styled.button<AppBarProps>` 
     width: ${collapseSidebarBtnWidth}px;
     height: ${collapseSidebarBtnWidth}px;
     border-radius: 50%;
     z-index: 999999;
     position: absolute;
     top: 42%;
-    margin-left: -58px;
+    margin-left: ${ (props) => props.open ? (drawerWidth - collapseSidebarBtnWidth/2) : (collapsedDrawerWidth - collapseSidebarBtnWidth/2)}px;
     background-color: #F5F5F5;
+    transition: margin 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
     border: 0;
     cursor: pointer;
     color: darkgray;
@@ -71,7 +72,6 @@ const Main = styled.div<AppBarProps>`
 
 const DrawerContentBox = styled.div`
     display: flex;
-    align-items: center;
     padding-top: ${headerHieght}px;
     height: 100%;
     width: 100%;
@@ -82,6 +82,8 @@ const AppBar = styled(MuiAppBar)<AppBarProps>`
         width: calc(100% - ${ (props) => props.open ? drawerWidth : collapsedDrawerWidth }px);
         margin-left: ${ (props) => props.open ? drawerWidth : collapsedDrawerWidth }px;
         box-shadow: unset;
+        height: ${headerHieght}px;
+        justify-content: center;
         background-color: #F5F5F5;
         color: black;
         transition: width 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
@@ -182,15 +184,16 @@ export default function MiniDrawer() {
                     </List>
                 </Drawer>
                 <Main open={open} >
-                    <CollapseSidebarBtn
-                        onClick={handleDrawerSwitch}
-                    >
-                        {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                    </CollapseSidebarBtn>
                     <DrawerContentBox>
                         <Outlet />
                     </DrawerContentBox>
                 </Main>
+                <CollapseSidebarBtn
+                    open={open}
+                    onClick={handleDrawerSwitch}
+                >
+                    {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                </CollapseSidebarBtn>
             </Box>
         </>
     );
