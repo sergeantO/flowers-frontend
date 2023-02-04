@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { styled as style, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import styled from 'styled-components'
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -33,11 +32,16 @@ import { Collapse } from '@mui/material';
 
 const drawerWidth = 330;
 const collapsedDrawerWidth = 124;
-const CollapseSidebarBtnWidth = 66
+const collapseSidebarBtnWidth = 66;
+const headerHieght = 124;
+
+interface AppBarProps extends MuiAppBarProps {
+    open?: boolean;
+}
 
 const CollapseSidebarBtn = styled.button` 
-    width: ${CollapseSidebarBtnWidth}px;
-    height: ${CollapseSidebarBtnWidth}px;
+    width: ${collapseSidebarBtnWidth}px;
+    height: ${collapseSidebarBtnWidth}px;
     border-radius: 50%;
     z-index: 999999;
     position: absolute;
@@ -52,97 +56,55 @@ const CollapseSidebarBtn = styled.button`
     }
 `
 
-const Main = style('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
-    open?: boolean;
-}>(({ theme, open }) => ({
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: 0,
-    ...(open && {
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-        marginLeft: 0,
-    }),
-}));
+const SidebarHeader = styled(Toolbar)<AppBarProps>`
+    height: 150px;
+    width: ${ (props) => props.open ? drawerWidth : collapsedDrawerWidth }px;
 
-const openedMixin = (theme: Theme): CSSObject => ({
-    width: drawerWidth,
-    background: '#E8E8E8',
-    transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-    }),
-    overflowX: 'hidden',
-});
+`
 
-const closedMixin = (theme: Theme): CSSObject => ({
-    transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-    }),
-    background: '#E8E8E8',
-    overflowX: 'hidden',
-    width: `calc(${theme.spacing(15.5)} + 1px)`,
-    [theme.breakpoints.up('sm')]: {
-        width: `calc(${theme.spacing(15.5)} + 1px)`,
-    },
-});
+const Main = styled.div<AppBarProps>`
+    background-color: #F5F5F5;
+    flex-grow: 1;
+    padding: 24px;
+    transition: width 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
+`
 
-interface AppBarProps extends MuiAppBarProps {
-    open?: boolean;
-}
+const DrawerContentBox = styled.div`
+    display: flex;
+    align-items: center;
+    padding-top: ${headerHieght}px;
+    height: 100%;
+    width: 100%;
+`
 
-const DrawerHeader = style('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-}));
+const AppBar = styled(MuiAppBar)<AppBarProps>`
+    && {
+        width: calc(100% - ${ (props) => props.open ? drawerWidth : collapsedDrawerWidth }px);
+        margin-left: ${ (props) => props.open ? drawerWidth : collapsedDrawerWidth }px;
+        box-shadow: unset;
+        background-color: #F5F5F5;
+        color: black;
+        transition: width 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
+    }
+`
 
-const AppBar = style(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== 'open',
-})<AppBarProps>(({ theme, open }) => ({
-    width: `calc(100% - 124px)`,
-    boxShadow: "unset",
-    backgroundColor: "#F5F5F5",
-    color: "black",
-    transition: theme.transitions.create(['width', 'margin'], {
-    }),
-    ...(open && {
-        marginLeft: drawerWidth,
-        width: `calc(100% - ${drawerWidth}px)`,
-        transition: theme.transitions.create(['width', 'margin'], {
-        }),
-    }),
-}));
-
-const Drawer = style(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme, open }) => ({
-        width: drawerWidth,
-        flexShrink: 0,
-        whiteSpace: 'nowrap',
-        boxSizing: 'border-box',
-        ...(open && {
-            ...openedMixin(theme),
-            '& .MuiDrawer-paper': openedMixin(theme),
-        }),
-        ...(!open && {
-            ...closedMixin(theme),
-            '& .MuiDrawer-paper': closedMixin(theme),
-        }),
-    }),
-);
+const Drawer = styled(MuiDrawer)`
+    width: ${ (props) => props.open ? drawerWidth : collapsedDrawerWidth }px;
+    flex-shrink: 0;
+    white-space: nowrap;
+    box-sizing: border-box;
+    transition: width 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
+    background: #E8E8E8;
+    overflow-x: hidden;
+    .MuiDrawer-paper {
+        transition: width 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
+        width: ${ (props) => props.open ? drawerWidth : collapsedDrawerWidth }px;
+        background: #E8E8E8;
+        overflow-x: hidden;
+    }
+`
 
 export default function MiniDrawer() {
-    const theme = useTheme();
     const [open, setOpen] = React.useState(true);
 
     const handleDrawerSwitch = () => {
@@ -162,10 +124,9 @@ export default function MiniDrawer() {
 
     return (
         <>
-            
             <Box sx={{ display: 'flex', height: '100vh'}}>
                 <CssBaseline />
-                <AppBar position="fixed" open={open}>
+                <AppBar position='fixed' open={open}>
                     <Toolbar>
                         <Typography variant="h6" noWrap component="div">
                             This is header
@@ -173,10 +134,10 @@ export default function MiniDrawer() {
                     </Toolbar>
                 </AppBar>
                 <Drawer variant="permanent" open={open}>
+                    <SidebarHeader>
+                        TODO: место под логотип
+                    </SidebarHeader>
                     <List sx={{ marginLeft: '25px'}}>
-                        <Toolbar sx={{ height: "150px" }}>
-                            TODO: место под логотип
-                        </Toolbar>
                         <SidebarItem to="Finance" icon={WalletIcon} text={open ? m("Финансы") : ''} />
                         <SidebarItem to="Users" icon={PersonIcon} text={open ? m("Пользователи") : ''} />
                         <SidebarItem to="Stock" icon={InventoryIcon} text={open ? m("Склад") : ''} />
@@ -220,19 +181,15 @@ export default function MiniDrawer() {
                         <SidebarItem to="Settings" icon={SettingsIcon} text={open ? m("Настройки") : ''} />
                     </List>
                 </Drawer>
-                <Main 
-                    open={open} 
-                    sx={{
-                        backgroundColor: "#F5F5F5",
-                    }}
-                >
+                <Main open={open} >
                     <CollapseSidebarBtn
                         onClick={handleDrawerSwitch}
                     >
                         {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                     </CollapseSidebarBtn>
-                    <DrawerHeader />
-                    <Outlet />
+                    <DrawerContentBox>
+                        <Outlet />
+                    </DrawerContentBox>
                 </Main>
             </Box>
         </>
